@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nikhil Sachdeva | Developer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1a1030;--dusk:#2b1650;--pink:#ff2e88;--sun:#ff8a3d;--gold:#f5c542;--teal:#19d3c5;--paper:#f4ecd8;--black:#050308}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--paper);font-family:Barlow,system-ui,sans-serif;font-size:18px;line-height:1.5}
+h1,h2,h3,.disp{font-family:Bungee,Impact,sans-serif;font-weight:400;line-height:1.05}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+/* loading screen */
+#load{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,var(--black),var(--dusk) 60%,var(--pink));display:flex;flex-direction:column;justify-content:flex-end;padding:8vw;transition:opacity .6s,visibility .6s}
+#load.done{opacity:0;visibility:hidden}
+#load h1{font-size:clamp(2rem,8vw,5rem);color:var(--gold);text-shadow:4px 4px 0 var(--black)}
+#tip{margin:1rem 0 1.5rem;min-height:3em;font-size:1.1rem}
+#bar{height:10px;background:#ffffff22}
+#fill{height:100%;width:0;background:var(--gold)}
+
+/* wanted level */
+#wanted{position:fixed;top:12px;right:14px;z-index:50;display:flex;gap:4px;background:#050308cc;padding:6px 10px;border:2px solid var(--gold)}
+#wanted span{font-size:22px;color:#ffffff33;transition:color .3s}
+#wanted span.on{color:var(--gold)}
+#hired{position:fixed;left:50%;bottom:24px;transform:translate(-50%,160%);z-index:60;background:var(--gold);color:var(--black);padding:14px 22px;border:3px solid var(--black);text-align:center;transition:transform .4s;max-width:92vw}
+#hired.show{transform:translate(-50%,0)}
+#hired b{font-family:Bungee,sans-serif;font-weight:400;display:block;font-size:1.2rem}
+#hired a{color:var(--black);font-weight:600}
+
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vw 7vw 8vw;background:linear-gradient(180deg,var(--dusk),var(--pink) 70%,var(--sun))}
+.hero h1{font-size:clamp(3rem,13vw,9rem);color:var(--paper);text-shadow:5px 5px 0 var(--black)}
+.hero p{max-width:34ch;margin-top:1.5rem;font-size:1.25rem;color:var(--paper)}
+.hero .btns{margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 20px;font-family:Bungee,sans-serif;text-decoration:none;background:var(--black);color:var(--gold);border:3px solid var(--gold)}
+.btn:hover{background:var(--gold);color:var(--black)}
+
+section{padding:12vw 7vw 8vw;max-width:1100px;margin:auto}
+section>h2{font-size:clamp(1.8rem,6vw,3rem);color:var(--gold);text-shadow:3px 3px 0 var(--black);margin-bottom:.5rem}
+.sub{opacity:.8;margin-bottom:2rem;max-width:55ch}
+
+/* missions */
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--black);border:2px solid #ffffff2a;padding:22px;position:relative}
+.card h3{font-size:1.3rem;color:var(--paper);margin-bottom:.6rem}
+.card dl{margin-top:.8rem}
+.card dt{color:var(--sun);font-weight:600}
+.card dd{margin-bottom:.5rem}
+.stamp{display:inline-block;font-family:Bungee,sans-serif;font-size:.85rem;padding:3px 10px;margin-bottom:.8rem;border:2px solid}
+.passed{color:var(--gold);border-color:var(--gold)}
+.active{color:var(--teal);border-color:var(--teal)}
+.plan{color:var(--pink);border-color:var(--pink)}
+.card .links{margin-top:.8rem;display:flex;gap:16px}
+
+/* stats */
+.stat{margin-bottom:18px}
+.stat label{display:flex;justify-content:space-between;font-weight:600;margin-bottom:5px}
+.track{height:16px;background:#ffffff1f;border:2px solid var(--black)}
+.val{height:100%;width:0;background:linear-gradient(90deg,var(--sun),var(--pink));transition:width 1.2s}
+
+footer{padding:8vw 7vw 14vw;text-align:center;background:var(--black)}
+footer h2{font-size:clamp(1.8rem,6vw,3.2rem);color:var(--gold)}
+footer p{margin:1rem 0 1.5rem}
+footer .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div id="load" role="status" aria-live="polite">
+  <h1>Loading Nikhil's Portfolio...</h1>
+  <p id="tip"></p>
+  <div id="bar"><div id="fill"></div></div>
+</div>
+
+<div id="wanted" aria-label="Wanted level"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+<div id="hired"><b>Wanted: Hired</b>Nikhil is open to internships. <a href="mailto:YOUR_EMAIL@example.com">Send an offer</a></div>
+
+<header class="hero">
+  <h1>Nikhil<br>Sachdeva</h1>
+  <p>BTech CSE (Data Science) student from Punjab. I build small things, ship them, and learn from what breaks.</p>
+  <div class="btns">
+    <a class="btn" href="#missions">Start missions</a>
+    <a class="btn" href="https://github.com/YOUR_USERNAME">GitHub</a>
+  </div>
+</header>
+
+<section id="missions">
+  <h2>Missions</h2>
+  <p class="sub">Each project is a mission: what I set out to do, what I used, and what I took away.</p>
+  <div class="grid">
+
+    <article class="card">
+      <span class="stamp passed">Mission passed</span>
+      <h3>FocusBoard</h3>
+      <dl>
+        <dt>Objective</dt><dd>A Pomodoro timer with a task tracker, all in one page.</dd>
+        <dt>Loadout</dt><dd>HTML, CSS, JavaScript, GitHub Pages</dd>
+        <dt>Reward</dt><dd>First project I built and deployed on my own.</dd>
+      </dl>
+      <div class="links"><a href="#">Live demo</a><a href="#">Code</a></div>
+    </article>
+
+    <article class="card">
+      <span class="stamp active">In progress</span>
+      <h3>AI Debug Buddy</h3>
+      <dl>
+        <dt>Objective</dt><dd>A debugging tutor that explains a bug step by step instead of just handing over the fix.</dd>
+        <dt>Loadout</dt><dd>Grok API, JavaScript</dd>
+        <dt>Reward</dt><dd>Learning to work with an LLM API and design prompts.</dd>
+      </dl>
+      <div class="links"><a href="#">Code</a></div>
+    </article>
+
+    <article class="card">
+      <span class="stamp passed">Mission passed</span>
+      <h3>Grizon Tech Internship</h3>
+      <dl>
+        <dt>Objective</dt><dd>Deliver a project end to end on my own.</dd>
+        <dt>Loadout</dt><dd>Add your stack here</dd>
+        <dt>Reward</dt><dd>Add one concrete thing you built or learned.</dd>
+      </dl>
+      <div class="links"><a href="#">Details</a></div>
+    </article>
+
+    <article class="card">
+      <span class="stamp active">Training run</span>
+      <h3>Data Science Pipeline</h3>
+      <dl>
+        <dt>Objective</dt><dd>Work through a full data science project: Anaconda setup, Git, analysis.</dd>
+        <dt>Loadout</dt><dd>Python, Anaconda, Git, VS Code</dd>
+        <dt>Reward</dt><dd>A working local environment and a repeatable workflow.</dd>
+      </dl>
+      <div class="links"><a href="#">Code</a></div>
+    </article>
+
+    <article class="card">
+      <span class="stamp plan">Planning</span>
+      <h3>Debug Together</h3>
+      <dl>
+        <dt>Objective</dt><dd>Couples fix a codebase together and win dinner coupons from partner cafes and restaurants.</dd>
+        <dt>Loadout</dt><dd>Idea stage</dd>
+        <dt>Reward</dt><dd>Testing whether people want this before building it.</dd>
+      </dl>
+    </article>
+
+  </div>
+</section>
+
+<section id="stats">
+  <h2>Player stats</h2>
+  <p class="sub">Honest levels. Edit the numbers in the HTML (data-v) as you improve.</p>
+  <div id="statlist">
+    <div class="stat"><label>Python <span>60</span></label><div class="track"><div class="val" data-v="60"></div></div></div>
+    <div class="stat"><label>JavaScript <span>50</span></label><div class="track"><div class="val" data-v="50"></div></div></div>
+    <div class="stat"><label>SQL <span>55</span></label><div class="track"><div class="val" data-v="55"></div></div></div>
+    <div class="stat"><label>HTML / CSS <span>65</span></label><div class="track"><div class="val" data-v="65"></div></div></div>
+    <div class="stat"><label>Git <span>45</span></label><div class="track"><div class="val" data-v="45"></div></div></div>
+    <div class="stat"><label>Shipping speed <span>70</span></label><div class="track"><div class="val" data-v="70"></div></div></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <h2>Hire me</h2>
+  <p>Open to internships and junior roles in software and data.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:YOUR_EMAIL@example.com">Email</a>
+    <a class="btn" href="https://www.linkedin.com/in/YOUR_HANDLE">LinkedIn</a>
+    <a class="btn" href="https://github.com/YOUR_USERNAME">GitHub</a>
+  </div>
+</footer>
+
+<script>
+// Loading screen
+const tips=["Tip: Hire this guy.","Tip: Ships small projects fast.","Tip: Fixes bugs by understanding them first.","Tip: Still learning, still building."];
+const tipEl=document.getElementById('tip'),fill=document.getElementById('fill'),load=document.getElementById('load');
+let p=0,t=0;tipEl.textContent=tips[0];
+const tipTimer=setInterval(()=>{t=(t+1)%tips.length;tipEl.textContent=tips[t]},900);
+const barTimer=setInterval(()=>{
+  p+=Math.random()*14+4;
+  if(p>=100){p=100;clearInterval(barTimer);clearInterval(tipTimer);setTimeout(()=>load.classList.add('done'),300)}
+  fill.style.width=p+'%';
+},260);
+
+// Wanted level follows scroll
+const stars=[...document.querySelectorAll('#wanted span')],hired=document.getElementById('hired');
+function onScroll(){
+  const max=document.documentElement.scrollHeight-innerHeight;
+  const pct=max>0?scrollY/max:0;
+  const lvl=Math.min(5,Math.floor(pct*5.2));
+  stars.forEach((s,i)=>s.classList.toggle('on',i<lvl));
+  hired.classList.toggle('show',lvl>=5);
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// Stat bars fill when visible
+new IntersectionObserver((es,o)=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.querySelectorAll('.val').forEach(v=>v.style.width=v.dataset.v+'%');o.unobserve(e.target)}
+}),{threshold:.3}).observe(document.getElementById('statlist'));
+</script>
+</body>
+</html>
